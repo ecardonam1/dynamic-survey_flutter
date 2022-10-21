@@ -2,14 +2,12 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:dio/dio.dart';
 
 class AuthService {
-  final String _baseUrl = 'https://identitytoolkit.googleapis.com';
+  final String _baseUrl = 'https://identitytoolkit.googleapis.com/';
   final String _firebaseToken = 'AIzaSyB09VtRHuir4AqDHQgeiRb_fymH0dPG4tk';
   final String _endPoint = '/v1/accounts';
   var dio = Dio();
 
   final storage = const FlutterSecureStorage();
-
-//si retornmaos algo es un erro, sino todo bien
 
   Future<String?> createUser(String email, String password) async {
     final Map<String, dynamic> authData = {
@@ -46,6 +44,7 @@ class AuthService {
       if (resp.data.containsKey('idToken')) {
         resp.data['idToken'];
         await storage.write(key: 'token', value: resp.data['idToken']);
+        await storage.write(key: 'email', value: email);
         return null;
       }
     } on DioError catch (e) {

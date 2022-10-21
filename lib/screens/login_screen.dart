@@ -119,9 +119,15 @@ class _LoginForm extends StatelessWidget {
                           loginFormCtrl.password.value);
 
                       if (errorMessage == null) {
-                        Navigator.pushReplacementNamed(context, 'forms');
+                        Get.offNamed('home');
                       } else {
-                        NotificationsService.showSnackbar(errorMessage);
+                        // NotificationsService.showSnackbar(errorMessage);
+                        Get.snackbar(
+                          'Error:',
+                          errorMessage,
+                          snackPosition: SnackPosition.BOTTOM,
+                        );
+
                         loginFormCtrl.isLoading = false;
                       }
                     },
