@@ -42,25 +42,28 @@ class Survey {
 }
 
 class Question {
-  Question({
-    required this.fieldType,
-    required this.question,
-    required this.isRequired,
-  });
+  Question(
+      {required this.fieldType,
+      required this.question,
+      required this.isRequired,
+      required this.answers});
 
   final String fieldType;
   final String question;
   final bool isRequired;
+  final List<dynamic> answers;
 
   factory Question.fromMap(Map<String, dynamic> json) => Question(
         fieldType: json["fieldType"],
         question: json["question"],
         isRequired: json["isRequired"],
+        answers: json["answers"] ?? [],
       );
 
   Map<String, dynamic> toMap() => {
         "fieldType": fieldType,
         "question": question,
-        "equired": isRequired,
+        "isRequired": isRequired,
+        "answers": answers ?? [],
       };
 }

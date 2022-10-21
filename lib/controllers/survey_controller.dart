@@ -1,7 +1,7 @@
 import 'package:chamitosapp/models/survey.dart';
 import 'package:get/get.dart';
 
-class surveyController extends GetxController {
+class SurveyController extends GetxController {
   RxString name = ''.obs;
   RxString description = ''.obs;
   List questions = [];
@@ -16,10 +16,13 @@ class surveyController extends GetxController {
       'question': question['question']
     });
 
-    questionsModel.add(Question(
-        fieldType: question['fieldType'],
-        question: question['question'],
-        isRequired: question['isRequired']));
+    questionsModel.add(
+      Question(
+          fieldType: question['fieldType'],
+          question: question['question'],
+          isRequired: question['isRequired'],
+          answers: []),
+    );
   }
 
   void removeQuestion(int index) {

@@ -1,6 +1,7 @@
 import 'package:chamitosapp/controllers/survey_controller.dart';
 import 'package:chamitosapp/services/services.dart';
 import 'package:chamitosapp/ui/input_decorations.dart';
+import 'package:chamitosapp/widgets/custom_material_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -9,7 +10,7 @@ class FormsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final surverController = Get.put(surveyController());
+    final surverController = Get.put(SurveyController());
     RxBool tempNewQuestion = false.obs;
     return Scaffold(
         appBar: AppBar(
@@ -88,7 +89,10 @@ class FormsScreen extends StatelessWidget {
                       );
                     },
                   ),
-                  ElevatedButton(
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  CustomMaterialButton(
                       onPressed: () async {
                         String code = UniqueKey().toString();
                         code = code.substring(2, code.length - 1);
@@ -99,10 +103,15 @@ class FormsScreen extends StatelessWidget {
                             .createSurvey(surverController.survey);
                         await Get.defaultDialog(
                             title: 'Encuesta creada: Anota o captura el código',
+                            confirm: CustomMaterialButton(
+                                onPressed: () {
+                                  Get.back();
+                                },
+                                text: 'Ok'),
                             middleText: 'Código: $code');
-                        Get.offNamed('login');
+                        Get.offNamed('home');
                       },
-                      child: const Text('Crear encuesta'))
+                      text: 'Crear encuesta')
                 ],
               ),
             );
@@ -127,9 +136,9 @@ class FormsScreen extends StatelessWidget {
     }
   }
 
-  Widget addNew(surveyController surveyController, RxBool tempNewQuestion) {
+  Widget addNew(SurveyController surveyController, RxBool tempNewQuestion) {
     Map<dynamic, dynamic> tempQuestion =
-        {'isRequired': false, 'question': '', 'fieldType': 'Fecha'}.obs;
+        {'isRequired': false, 'question': '', 'fieldType': 'Texto'}.obs;
     return Obx(
       () {
         return Column(
@@ -178,12 +187,12 @@ class FormsScreen extends StatelessWidget {
                 )
               ],
             ),
-            ElevatedButton(
+            CustomMaterialButton(
                 onPressed: () {
                   tempNewQuestion.value = false;
                   surveyController.addNewQuestion(tempQuestion);
                 },
-                child: const Text('Agregar'))
+                text: 'Agregar')
           ],
         );
       },

@@ -1,6 +1,8 @@
 import 'package:chamitosapp/controllers/login_form_controller.dart';
+import 'package:chamitosapp/models/survey.dart';
 import 'package:chamitosapp/services/services.dart';
 import 'package:chamitosapp/ui/input_decorations.dart';
+import 'package:chamitosapp/widgets/custom_material_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -62,6 +64,8 @@ class LoginScreen extends StatelessWidget {
 class _LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    String code = '';
+    SurveyService surveyService = SurveyService();
     final loginFormCtrl = Get.put(LoginFormController());
     return Form(
         key: loginFormCtrl.loginformkey,
@@ -144,7 +148,34 @@ class _LoginForm extends StatelessWidget {
                   style: const TextStyle(color: Colors.white),
                 ),
               ),
-            )
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            TextFormField(
+                keyboardType: TextInputType.text,
+                onChanged: (value) {
+                  code = value;
+                },
+                decoration: InputDecorations.authInputDecoration(
+                  hintText: 'ingrese el código de la encuesta',
+                  labelText: 'Código',
+                )),
+            const SizedBox(
+              height: 15,
+            ),
+            CustomMaterialButton(
+                onPressed: () async {
+                  Survey? survey = await surveyService.getSurveyByCode(code);
+                  if (survey != null) {
+                    Get.offNamed("/answer", arguments: survey);
+                  } else {
+                    Get.snackbar('No encontrada:',
+                        'Asegurese de verificar el codigo correctamente',
+                        snackPosition: SnackPosition.BOTTOM);
+                  }
+                },
+                text: 'Responder encuesta')
           ],
         ));
   }

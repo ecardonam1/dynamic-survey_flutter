@@ -1,3 +1,4 @@
+import 'package:chamitosapp/widgets/custom_material_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,19 +17,19 @@ class HomeScreen extends StatelessWidget {
       ),
       body: Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          ElevatedButton(
+          CustomMaterialButton(
               onPressed: () {
                 Get.toNamed("/forms");
               },
-              child: const Text('Crear nueva encuesta')),
+              text: 'Crear nueva encuesta'),
           const SizedBox(
             height: 30,
           ),
-          ElevatedButton(
+          CustomMaterialButton(
               onPressed: () {
                 Get.toNamed("/surveys");
               },
-              child: const Text('Mis encuestas')),
+              text: 'Mis encuestas'),
         ]),
       ),
     );
