@@ -1,9 +1,11 @@
 import 'package:chamitosapp/controllers/survey_controller.dart';
+import 'package:chamitosapp/services/FirebaseDynamicLinkService.dart';
 import 'package:chamitosapp/services/services.dart';
 import 'package:chamitosapp/ui/input_decorations.dart';
 import 'package:chamitosapp/widgets/custom_material_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
 
 class FormsScreen extends StatelessWidget {
   const FormsScreen({super.key});
@@ -97,18 +99,32 @@ class FormsScreen extends StatelessWidget {
                         String code = UniqueKey().toString();
                         code = code.substring(2, code.length - 1);
                         surverController.addSurvey(code);
-
                         SurveyService surveyService = SurveyService();
                         await surveyService
                             .createSurvey(surverController.survey);
+                        String link =
+                            await FirebaseDynamicLinkService.createDynamicLink(
+                                true, code);
+
                         await Get.defaultDialog(
-                            title: 'Encuesta creada: Anota o captura el código',
+                            title: 'Encuesta creada',
                             confirm: CustomMaterialButton(
+                                onPressed: () {
+                                  Share.share(
+                                      '''Responde la encuesta con el Código: $code 
+                                  o el enlace: $link''');
+                                },
+                                text: 'Share'),
+                            cancel: CustomMaterialButton(
                                 onPressed: () {
                                   Get.back();
                                 },
                                 text: 'Ok'),
-                            middleText: 'Código: $code');
+                            middleText: '''
+                            Comparte el enlace: $link
+                            o 
+                            Código: $code
+                            para responder la encuesta''');
                         Get.offNamed('home');
                       },
                       text: 'Crear encuesta')

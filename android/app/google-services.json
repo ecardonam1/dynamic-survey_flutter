@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "91471994732",
+    "firebase_url": "https://chamitosapp-default-rtdb.firebaseio.com",
+    "project_id": "chamitosapp",
+    "storage_bucket": "chamitosapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:91471994732:android:01a03e3c94435b97675d49",
+        "android_client_info": {
+          "package_name": "com.example.chamitosapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "91471994732-86htbtnhmvri0fsisaj2ebfhtmh4n6e8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJcLb1VYgFX0lsVly3FhjWQw9Biwx8qUY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "91471994732-86htbtnhmvri0fsisaj2ebfhtmh4n6e8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "91471994732-hlaj4v0ah2dio4lk9l4e7b61qkijckbi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.chamitosapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,3 +1,5 @@
+export 'package:chamitosapp/screens/auth_screen.dart';
+
 export 'package:chamitosapp/screens/home_screen.dart';
 
 export 'package:chamitosapp/screens/surveys_screen.dart';

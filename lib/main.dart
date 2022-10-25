@@ -1,9 +1,19 @@
+import 'package:chamitosapp/services/FirebaseDynamicLinkService.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'firebase_options.dart';
 import 'screens/screens.dart';
 
-void main() => runApp(const AppState());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  FirebaseDynamicLinkService.initDynamicLink();
+  runApp(const AppState());
+}
 
 class AppState extends StatelessWidget {
   const AppState({super.key});
@@ -30,6 +40,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/answer', page: () => const AnswerSurveyScreen()),
         GetPage(name: '/surveys', page: () => const SurveysScreen()),
         GetPage(name: '/home', page: () => const HomeScreen()),
+        GetPage(name: '/auth', page: () => const AuthScreen()),
       ],
       theme: ThemeData.light().copyWith(
         scaffoldBackgroundColor: Colors.grey[300],
