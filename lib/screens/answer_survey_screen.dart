@@ -1,4 +1,3 @@
-import 'package:chamitosapp/controllers/answer_form_controller.dart';
 import 'package:chamitosapp/controllers/survey_controller.dart';
 import 'package:chamitosapp/ui/input_decorations.dart';
 import 'package:chamitosapp/widgets/custom_material_button.dart';
@@ -11,8 +10,8 @@ class AnswerSurveyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final surveyController = Get.put(SurveyController());
-    final answerFormController = Get.put(AnswerFormController());
     surveyController.survey = Get.arguments;
+    List<TextEditingController> textEditingController = [];
     return Scaffold(
         appBar: AppBar(
             centerTitle: true,
@@ -36,23 +35,39 @@ class AnswerSurveyScreen extends StatelessWidget {
                 shrinkWrap: true,
                 itemCount: surveyController.survey.questions.length,
                 itemBuilder: (context, index) {
+                  textEditingController.add(TextEditingController());
                   return Form(
                       key: UniqueKey(),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       child: Column(
                         children: [
                           TextFormField(
-                            onChanged: (value) {
+                            controller: textEditingController[index],
+                            onChanged: (value) async {
                               if (surveyController
                                       .survey.questions[index].answers.length ==
                                   0) {
                                 surveyController.survey.questions[index].answers
                                     .add('');
                               }
-                              surveyController.survey.questions[index].answers[
-                                  surveyController.survey.questions[index]
-                                          .answers.length -
-                                      1] = value;
+
+                              if (surveyController
+                                      .survey.questions[index].fieldType ==
+                                  'Fecha') {
+                                DateTime date = await showDatePicker(
+                                        context: context,
+                                        initialDate: DateTime.now(),
+                                        firstDate: DateTime(1970),
+                                        lastDate: DateTime.now()) ??
+                                    DateTime(2022);
+                                textEditingController[index].text =
+                                    '${date.day}/${date.month}/${date.year}';
+                              } else {
+                                surveyController.survey.questions[index]
+                                    .answers[surveyController.survey
+                                        .questions[index].answers.length -
+                                    1] = value;
+                              }
                             },
                             keyboardType: getType(surveyController
                                 .survey.questions[index].fieldType),
@@ -65,7 +80,7 @@ class AnswerSurveyScreen extends StatelessWidget {
                               return surveyController
                                           .survey.questions[index].isRequired &&
                                       value != null &&
-                                      value.length < 2
+                                      value.isEmpty
                                   ? 'Campo Requerido'
                                   : null;
                             },

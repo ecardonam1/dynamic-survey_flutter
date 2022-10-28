@@ -12,7 +12,7 @@ class FormsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final surverController = Get.put(SurveyController());
+    final surveyController = Get.put(SurveyController());
     RxBool tempNewQuestion = false.obs;
     return Scaffold(
         appBar: AppBar(
@@ -35,9 +35,9 @@ class FormsScreen extends StatelessWidget {
               child: Column(
                 children: [
                   TextFormField(
-                    initialValue: surverController.name.value,
+                    initialValue: surveyController.name.value,
                     onChanged: (value) {
-                      surverController.name.value = value;
+                      surveyController.name.value = value;
                     },
                     keyboardType: TextInputType.text,
                     decoration: InputDecorations.authInputDecoration(
@@ -46,9 +46,9 @@ class FormsScreen extends StatelessWidget {
                         prefixIcon: Icons.query_stats),
                   ),
                   TextFormField(
-                    initialValue: surverController.description.value,
+                    initialValue: surveyController.description.value,
                     onChanged: (value) {
-                      surverController.description.value = value;
+                      surveyController.description.value = value;
                     },
                     keyboardType: TextInputType.multiline,
                     decoration: InputDecorations.authInputDecoration(
@@ -59,13 +59,13 @@ class FormsScreen extends StatelessWidget {
                   ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: surverController.questions.length,
+                    itemCount: surveyController.questions.length,
                     itemBuilder: (context, index) {
                       return Column(
                         children: [
                           Dismissible(
                             onDismissed: (direction) {
-                              surverController.removeQuestion(index);
+                              surveyController.removeQuestion(index);
                             },
                             background: Container(
                               color: Colors.green,
@@ -77,11 +77,11 @@ class FormsScreen extends StatelessWidget {
                               child: const Icon(Icons.delete),
                             ),
                             child: TextFormField(
-                              keyboardType: getType(surverController
-                                  .questions[index]['fieldType']),
+                              keyboardType: getType((surveyController
+                                  .questions[index]['fieldType'])),
                               decoration: InputDecorations.authInputDecoration(
                                   hintText: '',
-                                  labelText: surverController.questions[index]
+                                  labelText: surveyController.questions[index]
                                       ['question'],
                                   prefixIcon: Icons.question_mark_outlined),
                             ),
@@ -98,10 +98,10 @@ class FormsScreen extends StatelessWidget {
                       onPressed: () async {
                         String code = UniqueKey().toString();
                         code = code.substring(2, code.length - 1);
-                        surverController.addSurvey(code);
+                        surveyController.addSurvey(code);
                         SurveyService surveyService = SurveyService();
                         await surveyService
-                            .createSurvey(surverController.survey);
+                            .createSurvey(surveyController.survey);
                         String link =
                             await FirebaseDynamicLinkService.createDynamicLink(
                                 true, code);
@@ -132,7 +132,7 @@ class FormsScreen extends StatelessWidget {
               ),
             );
           }
-          return addNew(surverController, tempNewQuestion);
+          return addNew(surveyController, tempNewQuestion);
         }));
   }
 
