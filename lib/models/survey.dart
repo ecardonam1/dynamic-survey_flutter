@@ -5,19 +5,22 @@
 import 'dart:convert';
 
 class Survey {
-  Survey({
-    required this.code,
-    required this.description,
-    required this.name,
-    required this.questions,
-    required this.user,
-  });
+  Survey(
+      {this.key,
+      required this.code,
+      required this.description,
+      required this.name,
+      required this.questions,
+      required this.user,
+      required this.link});
 
+  final String? key;
+  final String link;
   final String code;
   final String description;
   final String name;
   final List<dynamic> questions;
-  String user;
+  final String user;
 
   factory Survey.fromJson(String str) => Survey.fromMap(json.decode(str));
 
@@ -30,6 +33,7 @@ class Survey {
         questions: List<dynamic>.from(
             json["questions"].map((x) => Question.fromMap(x))),
         user: json["user"],
+        link: json["link"] ?? '',
       );
 
   Map<String, dynamic> toMap() => {
@@ -39,6 +43,23 @@ class Survey {
         "questions": List<dynamic>.from(questions.map((x) => x.toMap())),
         "user": user,
       };
+
+  Survey copyWith(
+          {String? key,
+          String? code,
+          String? description,
+          String? name,
+          List? questions,
+          String? user,
+          String? link}) =>
+      Survey(
+          key: key ?? this.key,
+          code: code ?? this.code,
+          description: description ?? this.description,
+          name: name ?? this.name,
+          questions: questions ?? this.questions,
+          user: user ?? this.user,
+          link: link ?? this.link);
 }
 
 class Question {
@@ -64,6 +85,6 @@ class Question {
         "fieldType": fieldType,
         "question": question,
         "isRequired": isRequired,
-        "answers": answers ?? [],
+        "answers": answers,
       };
 }

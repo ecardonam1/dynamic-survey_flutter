@@ -12,7 +12,27 @@ class SurveyService {
 
   Future saveOrCreateSurvey() async {}
 
-  Future getSurveyByCode(String code) async {
+  Future<List<Survey>> getSurveysByUser() async {
+    String user = await storage.read(key: 'email') ?? '';
+    List<Survey> surveys = [];
+    try {
+      final url = '$_baseUrl/$_endPoint';
+
+      final resp = await dio.get(url);
+      resp.data.forEach((key, value) {
+        if (value['user'] == user) {
+          surveys.add(Survey.fromMap(value).copyWith(key: key));
+        }
+      });
+      return surveys;
+    } on DioError catch (e) {
+      return (e.response != null)
+          ? e.response!.data['error']['message']
+          : e.response;
+    }
+  }
+
+  Future<Survey?> getSurveyByCode(String code) async {
     try {
       final url = '$_baseUrl/$_endPoint';
 
@@ -21,24 +41,26 @@ class SurveyService {
       resp.data.forEach((key, value) {
         if (code == value['code']) {
           tempSurvey = Survey.fromMap(value);
+          tempSurvey = tempSurvey!.copyWith(key: key);
         }
       });
       return tempSurvey;
     } on DioError catch (e) {
-      return e.response!.data['error']['message'];
+      return (e.response != null)
+          ? e.response!.data['error']['message']
+          : e.response;
     }
   }
 
-  Future saveSurveyByCode(String code) async {
+  Future saveSurvey(Survey survey) async {
     try {
       final url = '$_baseUrl/$_endPoint';
 
       final resp = await dio.get(url);
-      Survey? tempSurvey;
       String tempKey = '';
       resp.data.forEach((key, value) {
-        if (code == value['code']) {
-          tempSurvey = Survey.fromMap(value);
+        if (survey.code == value['code']) {
+          tempKey = key;
         }
       });
 
@@ -46,16 +68,19 @@ class SurveyService {
 
       await dio.put(
         urlS,
-        data: tempSurvey!.toJson(),
+        data: survey.toJson(),
       );
-      return tempSurvey;
+      return survey.toJson();
     } on DioError catch (e) {
-      return e.response!.data['error']['message'];
+      return (e.response != null)
+          ? e.response!.data['error']['message']
+          : e.response;
     }
   }
 
   Future createSurvey(Survey survey) async {
-    survey.user = await storage.read(key: 'email') ?? '';
+    String user = await storage.read(key: 'email') ?? '';
+    survey = survey.copyWith(user: user);
     try {
       final url = '$_baseUrl/$_endPoint';
       final resp = await dio.post(
@@ -69,8 +94,9 @@ class SurveyService {
         return null;
       }
     } on DioError catch (e) {
-      return e.response!.data['error']['message'];
+      return (e.response != null)
+          ? e.response!.data['error']['message']
+          : e.response;
     }
-    return null;
   }
 }

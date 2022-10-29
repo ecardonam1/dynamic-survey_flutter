@@ -1,3 +1,5 @@
+import 'package:chamitosapp/models/survey.dart';
+import 'package:chamitosapp/services/services.dart';
 import 'package:chamitosapp/widgets/custom_material_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,8 +28,10 @@ class HomeScreen extends StatelessWidget {
             height: 30,
           ),
           CustomMaterialButton(
-              onPressed: () {
-                Get.toNamed("/surveys");
+              onPressed: () async {
+                SurveyService surveyService = SurveyService();
+                List<Survey> surveys = await surveyService.getSurveysByUser();
+                Get.toNamed("/surveys", arguments: surveys);
               },
               text: 'Mis encuestas'),
         ]),

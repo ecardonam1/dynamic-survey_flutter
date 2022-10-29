@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 class SurveyController extends GetxController {
   RxString name = ''.obs;
+  RxString link = ''.obs;
   RxString description = ''.obs;
   List questions = [];
   RxList surveys = [].obs;
@@ -35,14 +36,17 @@ class SurveyController extends GetxController {
       'user': '',
       'name': name.value,
       'description': description.value,
-      'questions': questions
+      'questions': questions,
+      'link': link.value
     });
     survey = Survey(
-        code: surveys[surveys.length - 1]['code'],
-        description: surveys[surveys.length - 1]['description'],
-        name: surveys[surveys.length - 1]['name'],
-        questions: questionsModel,
-        user: surveys[surveys.length - 1]['user']);
+      code: surveys[surveys.length - 1]['code'],
+      description: surveys[surveys.length - 1]['description'],
+      name: surveys[surveys.length - 1]['name'],
+      questions: questionsModel,
+      user: surveys[surveys.length - 1]['user'],
+      link: surveys[surveys.length - 1]['link'],
+    );
 
     // questions.clear();
   }

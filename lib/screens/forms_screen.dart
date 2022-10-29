@@ -98,13 +98,13 @@ class FormsScreen extends StatelessWidget {
                       onPressed: () async {
                         String code = UniqueKey().toString();
                         code = code.substring(2, code.length - 1);
-                        surveyController.addSurvey(code);
-                        SurveyService surveyService = SurveyService();
-                        await surveyService
-                            .createSurvey(surveyController.survey);
                         String link =
                             await FirebaseDynamicLinkService.createDynamicLink(
                                 true, code);
+                        surveyController.addSurvey(code);
+                        SurveyService surveyService = SurveyService();
+                        await surveyService.createSurvey(
+                            surveyController.survey.copyWith(link: link));
 
                         await Get.defaultDialog(
                             title: 'Encuesta creada',

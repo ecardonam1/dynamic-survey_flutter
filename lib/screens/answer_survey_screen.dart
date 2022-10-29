@@ -1,4 +1,5 @@
 import 'package:chamitosapp/controllers/survey_controller.dart';
+import 'package:chamitosapp/services/services.dart';
 import 'package:chamitosapp/ui/input_decorations.dart';
 import 'package:chamitosapp/widgets/custom_material_button.dart';
 import 'package:flutter/material.dart';
@@ -36,21 +37,14 @@ class AnswerSurveyScreen extends StatelessWidget {
                 itemCount: surveyController.survey.questions.length,
                 itemBuilder: (context, index) {
                   textEditingController.add(TextEditingController());
+                  surveyController.survey.questions[index].answers.add('');
                   return Form(
                       key: UniqueKey(),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       child: Column(
                         children: [
                           TextFormField(
-                            controller: textEditingController[index],
-                            onChanged: (value) async {
-                              if (surveyController
-                                      .survey.questions[index].answers.length ==
-                                  0) {
-                                surveyController.survey.questions[index].answers
-                                    .add('');
-                              }
-
+                            onTap: (() async {
                               if (surveyController
                                       .survey.questions[index].fieldType ==
                                   'Fecha') {
@@ -62,12 +56,18 @@ class AnswerSurveyScreen extends StatelessWidget {
                                     DateTime(2022);
                                 textEditingController[index].text =
                                     '${date.day}/${date.month}/${date.year}';
-                              } else {
                                 surveyController.survey.questions[index]
                                     .answers[surveyController.survey
                                         .questions[index].answers.length -
-                                    1] = value;
+                                    1] = textEditingController[index].text;
                               }
+                            }),
+                            controller: textEditingController[index],
+                            onChanged: (value) {
+                              surveyController.survey.questions[index].answers[
+                                  surveyController.survey.questions[index]
+                                          .answers.length -
+                                      1] = value;
                             },
                             keyboardType: getType(surveyController
                                 .survey.questions[index].fieldType),
@@ -92,9 +92,8 @@ class AnswerSurveyScreen extends StatelessWidget {
               ),
               CustomMaterialButton(
                   onPressed: () async {
-                    // SurveyService surveyService = SurveyService();
-                    // await surveyService
-                    //     .saveSurveyByCode(surveyController.survey.code);
+                    SurveyService surveyService = SurveyService();
+                    await surveyService.saveSurvey(surveyController.survey);
                     await Get.defaultDialog(
                         title: "Se han enviado las respuestas",
                         middleText: 'Gracias por participar',

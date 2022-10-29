@@ -1,3 +1,4 @@
+import 'package:chamitosapp/screens/answers_survey_screen.dart';
 import 'package:chamitosapp/services/FirebaseDynamicLinkService.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/surveys', page: () => const SurveysScreen()),
         GetPage(name: '/home', page: () => const HomeScreen()),
         GetPage(name: '/auth', page: () => const AuthScreen()),
+        GetPage(name: '/answers', page: () => const AnswersSurveyScreen()),
       ],
       theme: ThemeData.light().copyWith(
         scaffoldBackgroundColor: Colors.grey[300],
