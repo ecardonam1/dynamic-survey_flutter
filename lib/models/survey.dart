@@ -42,6 +42,7 @@ class Survey {
         "name": name,
         "questions": List<dynamic>.from(questions.map((x) => x.toMap())),
         "user": user,
+        "link": link,
       };
 
   Survey copyWith(

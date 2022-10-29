@@ -35,7 +35,7 @@ class SurveysScreen extends StatelessWidget {
                         IconButton(
                             color: Colors.indigoAccent,
                             onPressed: () async {
-                              String link = await Get.defaultDialog(
+                              await Get.defaultDialog(
                                   title: 'Encuesta creada',
                                   confirm: CustomMaterialButton(
                                       onPressed: () {
