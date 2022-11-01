@@ -1,4 +1,5 @@
 import 'package:chamitosapp/models/survey.dart';
+import 'package:chamitosapp/services/services.dart';
 import 'package:chamitosapp/widgets/custom_material_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -29,7 +30,15 @@ class SurveysScreen extends StatelessWidget {
                         IconButton(
                             color: Colors.indigoAccent,
                             onPressed: () {
-                              Get.toNamed('answers', arguments: surveys[index]);
+                              SurveyService surveyService = SurveyService();
+
+                              List<String> answersUsers =
+                                  surveyService.getAnswersUsers(surveys[index]);
+                              final List survey = [
+                                surveys[index],
+                                answersUsers
+                              ];
+                              Get.toNamed('answers', arguments: survey);
                             },
                             icon: const Icon(Icons.query_stats_rounded)),
                         IconButton(

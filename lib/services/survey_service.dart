@@ -32,6 +32,25 @@ class SurveyService {
     }
   }
 
+  List<String> getAnswersUsers(Survey survey) {
+    List<String> answers = [];
+    String answersPerson = '';
+
+    for (int h = 0; h < survey.questions[0].answers.length; h++) {
+      for (int i = 0; i < survey.questions.length; i++) {
+        answersPerson += '''
+${i + 1})${survey.questions[i].question}
+${survey.questions[i].answers[h]}
+
+''';
+      }
+      answers.add(answersPerson);
+      answersPerson = '';
+    }
+
+    return answers;
+  }
+
   Future<Survey?> getSurveyByCode(String code) async {
     try {
       final url = '$_baseUrl/$_endPoint';
