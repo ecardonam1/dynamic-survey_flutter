@@ -14,6 +14,7 @@ class AnswerSurveyScreen extends StatelessWidget {
     surveyController.survey = Get.arguments;
     List<TextEditingController> textEditingController = [];
     return Scaffold(
+
         appBar: AppBar(
             centerTitle: true,
             backgroundColor: Colors.indigo,
@@ -101,7 +102,7 @@ class AnswerSurveyScreen extends StatelessWidget {
                             onPressed: () {
                               Get.back();
                             },
-                            text: 'Ok'));
+                            text: 'aceptar'));
                     Get.offNamed("/login");
                   },
                   text: 'Enviar respuestas')

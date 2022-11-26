@@ -44,6 +44,6 @@ app.*.map.json
 /android/app/release
 
 # operative systems desktop
-/windows
-/linux
-/macos
+/windows/
+/linux/
+/macos/
