@@ -34,6 +34,20 @@ class HomeScreen extends StatelessWidget {
                 Get.toNamed("/surveys", arguments: surveys);
               },
               text: 'Mis encuestas'),
+          CustomMaterialButton(
+              onPressed: () async {
+                SurveyService surveyService = SurveyService();
+                List<Survey> surveys = await surveyService.getSurveysByUser();
+                Get.toNamed("/surveys", arguments: surveys);
+              },
+              text: 'Mis encuestas'),
+          CustomMaterialButton(
+              onPressed: () async {
+                SurveyService surveyService = SurveyService();
+                List<Survey> surveys = await surveyService.getSurveysByUser();
+                onPressed: () => Get.offNamed("/login");
+              },
+              text: 'Cerrar Sesión'),
         ]),
       ),
     );
